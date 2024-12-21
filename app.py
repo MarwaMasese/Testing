@@ -2,14 +2,17 @@ from flask import Flask, request, render_template, flash, redirect, url_for
 import pandas as pd
 from werkzeug.utils import secure_filename
 import os
+from dotenv import load_dotenv
 import google.generativeai as genai
 import json
 
+load_dotenv()
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5 MB limit
-app.config['UPLOAD_FOLDER'] = 'temp_uploads'
-app.config['GEMINI_API_KEY'] = 'AIzaSyD37u9nI4SwW-jk1klnCiOt5YO6Z6xbc_o'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')  
+app.config['MAX_CONTENT_LENGTH'] = os.getenv('MAX_CONTENT_LENGTH')
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER')
+app.config['GEMINI_API_KEY'] = os.getenv('GEMINI_API_KEY')
 
 # Configure Gemini
 genai.configure(api_key=app.config['GEMINI_API_KEY'])
